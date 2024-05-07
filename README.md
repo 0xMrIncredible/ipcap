@@ -5,7 +5,7 @@
 [![License](https://img.shields.io/badge/license-MIT-blue.svg)](LICENSE)
 
 ```sh
-ipcap 0.1.6
+ipcap 0.1.7
 
  ▄█     ▄███████▄  ▄████████    ▄████████    ▄███████▄ 
 ███    ███    ███ ███    ███   ███    ███   ███    ███ 
@@ -144,7 +144,7 @@ ipcap -t 2a08:1450:300f:900::1003
 
 ```toml
 [dependencies]
-ipcap = "0.1.6"
+ipcap = "0.1.7"
 ```
 
 ```rust
