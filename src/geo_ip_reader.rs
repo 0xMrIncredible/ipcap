@@ -4,10 +4,12 @@ use crate::designated_market_area::DesignatedMarketArea;
 use crate::errors::GeoIpReaderError;
 use crate::time_zones::time_zone_by_country;
 use crate::utils::{ip_to_number, read_data};
-use dirs::home_dir;
-use std::env;
-use std::fs::File;
-use std::io::{Read, Seek, SeekFrom};
+use std::{
+    env,
+    fs::File,
+    io::{Read, Seek, SeekFrom},
+    path::PathBuf,
+};
 
 /// `GeoIpReader` represents a reader for GeoIP databases, allowing the retrieval
 /// of information based on IP addresses.
@@ -73,32 +75,21 @@ where
     /// }
     /// ```
     pub fn new(type_: &str) -> Result<GeoIpReader<File>, GeoIpReaderError> {
-        const ENV_VAR_NAME: &str = "IPCAP_FILE_PATH";
-        let file_path = match env::var(ENV_VAR_NAME) {
-            Ok(val) => val,
-            Err(_) => {
-                let default_path = match type_ {
-                    "v4" => {
-                        let mut path = home_dir().unwrap_or_default();
-                        path.push("ipcap");
-                        path.push("geo_ip_city_v4.dat");
-                        path
-                    }
-                    "v6" => {
-                        let mut path = home_dir().unwrap_or_default();
-                        path.push("ipcap");
-                        path.push("geo_ip_city_v6.dat");
-                        path
-                    }
+        let file_path = match env::var("IPCAP_FILE_PATH") {
+            Ok(val) => PathBuf::from(val),
+            Err(_) => dirs::data_local_dir()
+                .expect("Failed to get the data local directory")
+                .join(env!("CARGO_PKG_NAME"))
+                .join(match type_ {
+                    "v4" => "geo_ip_city_v4.dat",
+                    "v6" => "geo_ip_city_v6.dat",
                     _ => {
                         return Err(GeoIpReaderError::OpenFileError);
                     }
-                };
-                default_path.to_string_lossy().into_owned()
-            }
+                }),
         };
 
-        let fp = File::open(&file_path).map_err(|_| GeoIpReaderError::OpenFileError)?;
+        let fp = File::open(file_path).map_err(|_| GeoIpReaderError::OpenFileError)?;
 
         let mut geoip_reader = GeoIpReader {
             fp,

@@ -46,13 +46,13 @@ Download the city databases, v4 and v6 from the repository using this command:
 
 ```sh
 # IPV4 database
-curl -LS https://raw.githubusercontent.com/wiseaidev/ipcap/main/data/geo_ip_city_v4.dat --create-dirs -o ~/ipcap/geo_ip_city_v4.dat
+curl -LS https://raw.githubusercontent.com/wiseaidev/ipcap/main/data/geo_ip_city_v4.dat --create-dirs -o ~/.local/share/ipcap/geo_ip_city_v4.dat
 
 # IPV6 database
-curl -LS https://raw.githubusercontent.com/wiseaidev/ipcap/main/data/geo_ip_city_v6.dat --create-dirs -o ~/ipcap/geo_ip_city_v6.dat
+curl -LS https://raw.githubusercontent.com/wiseaidev/ipcap/main/data/geo_ip_city_v6.dat --create-dirs -o ~/.local/share/ipcap/geo_ip_city_v6.dat
 ```
 
-This will download the `data/geo_ip_city_v4.dat` and or `data/geo_ip_city_v4.dat` database(s) from the repository and put it under `~/ipcap/`.
+This will download the `data/geo_ip_city_v4.dat` and or `data/geo_ip_city_v4.dat` database(s) from the repository and put it under `~/.local/share/ipcap/`.
 
 If, for some reason, you decide to change this file location, just set this environment variable to help the CLI read this file. To set the environment variable before running your Rust program, you can do something like:
 
@@ -65,6 +65,9 @@ export IPCAP_FILE_PATH=/your/custom/path/geo_ip_city_v6.dat
 ```
 
 Replace `/your/custom/path/geo_ip_city_v4.dat` with the desired file path. If the environment variable is not set, the program will use the default path (`/home/username/ipcap/geo_ip_city_v4.dat`).
+
+> [!NOTE]
+The default location to find the databases is `~/Library/Application Support/ipcap/` on macOS, and `C:\Users\Username\AppData\Local\ipcap\` on Windows.
 
 > [!NOTE]
 The databases were shamelessly taken from the fedora website at [https://src.fedoraproject.org/repo/pkgs/GeoIP-GeoLite-data/](https://src.fedoraproject.org/repo/pkgs/GeoIP-GeoLite-data/).
