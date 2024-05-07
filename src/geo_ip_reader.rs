@@ -321,9 +321,7 @@ where
     /// ```
     pub fn get_record(&mut self, ip_number: &str) -> Record {
         // Get the offset of the country record for the given IP address
-        let seek_country = self
-            .get_country(ip_to_number(ip_number).try_into().unwrap())
-            .unwrap();
+        let seek_country = self.get_country(ip_to_number(ip_number)).unwrap();
 
         // Check if the offset is equal to the total number of database segments
         println!("{:?}", self.database_segments);

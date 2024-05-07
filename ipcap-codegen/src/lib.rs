@@ -59,9 +59,9 @@ macro_rules! save_content {
     (result $data: expr, $value: expr, $file_name: expr) => {
         _save_content!(
             format!(
-                r#"Ok(match {} {{
+                r#"match {} {{
                     {}
-                }}?)"#,
+                }}"#,
                 $value,
                 $data
             ),
